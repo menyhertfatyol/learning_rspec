@@ -17,13 +17,13 @@ RSpec::Matchers.define :be_discounted do |hsh|
     differ = RSpec::Support::Differ.new
 
     @difference = differ.diff_as_object(hsh, @actual)
-    @difference == ""
+    @difference.to_s.chomp == ""
   end
 
   failure_message do |actual|
     "expected #{@customer} to have discounts:\n" +
     " #{actual.inspect}.\n" +
-    "Diff: "
+    "Diff: \n" +
     @difference
   end
 end
@@ -34,7 +34,7 @@ RSpec.describe Customer do
     let(:customer) { Customer.new discounts: discounts }
 
     it "detects when customer has a discount" do
-      expect(customer).to be_discounted('foo123' => 0.1)
+      expect(customer).to be_discounted('foo123' => 0.2)
     end
   end
 end
